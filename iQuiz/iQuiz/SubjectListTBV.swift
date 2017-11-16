@@ -15,13 +15,13 @@ class SubjectListTBV: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let subject1 = Subject(name:"Mathematics", desc:"Do you want to test your matheamtic skills?", image:"math.png")
+        let subject1 = Subject(name:"Mathematics", desc:"Do you want to test your mathematic skills?", image:"math.png")
         subjectList += [subject1]
         
-        let subject2 = Subject(name:"Marvel Super Heros", desc:"Do you want to do some quizes?", image:"hero.png")
+        let subject2 = Subject(name:"Marvel Super Heros", desc:"Do you want to do some quizzes?", image:"hero.png")
         subjectList += [subject2]
         
-        let subject3 = Subject(name:"Science", desc:"Do you want to do some science quizes?", image:"science.jpeg")
+        let subject3 = Subject(name:"Science", desc:"Do you want to do some science quizzes?", image:"science.jpeg")
         subjectList += [subject3]
         
         // Uncomment the following line to preserve selection between presentations

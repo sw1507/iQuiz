@@ -9,11 +9,29 @@
 import UIKit
 
 class FinishViewController: UIViewController {
-
+    let r = UserDefaults.standard.integer(forKey: "rightNumber")
+    let q = UserDefaults.standard.integer(forKey: "queNumber")
+    var Desc = ""
+    
+    @IBOutlet weak var DescText: UILabel!
+    @IBOutlet weak var ScoreText: UILabel!
+    
+    @IBAction func Next(_ sender: AnyObject) {
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        ScoreText.text = "\(r) of \(q) correct"
+        let correctRate = Double(r)/Double(q)
+        if (r == q){
+            Desc = "Perfect!"
+        } else if (correctRate > 0.9){
+            Desc = "Almost!"
+        } else {
+            let diff = q - r
+            Desc = "\(diff) missed!"
+        }
+        DescText.text = Desc
     }
 
     override func didReceiveMemoryWarning() {
