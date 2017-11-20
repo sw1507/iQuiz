@@ -10,11 +10,36 @@ import UIKit
 
 class SubjectListTBV: UITableViewController {
     
+    
+    private var subs = ["Mathematics", "Marvel Super Heroes","Science"]
+    private var descs = ["Think you are good at math?","Provided by Marvel Comics",
+                         "I love science"]
+    private var url = "http://tednewardsandbox.site44.com/questions.json"
+    var quizes = Quizes.shared
+    var queS = QuestionS.shared
+
     var subjectList = [Subject]()
+
     
-    
+    @IBAction func settings(_ sender: Any) {
+        let alertcontroller = UIAlertController.init(title: "Update", message: "Input URL below", preferredStyle: UIAlertControllerStyle.alert)
+        alertcontroller.addTextField { (textField) in
+            textField.placeholder = "URL"
+        }
+        alertcontroller.addAction(UIAlertAction(title: "check now", style: .default) {
+            UIAlertAction in
+            let url = alertcontroller.textFields![0] as UITextField
+            GetData.getData(url.text)
+            self.tableView.reloadData()
+            }
+        )
+        self.present(alertcontroller, animated: true)
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        GetData.getData("http://tednewardsandbox.site44.com/questions.json")
+ 
         let subject1 = Subject(name:"Mathematics", desc:"Do you want to test your mathematic skills?", image:"math.png")
         subjectList += [subject1]
         
@@ -23,48 +48,31 @@ class SubjectListTBV: UITableViewController {
         
         let subject3 = Subject(name:"Science", desc:"Do you want to do some science quizzes?", image:"science.jpeg")
         subjectList += [subject3]
-        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return self.quizes.list.count
     }
-
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        var height:CGFloat = CGFloat()
-            height = 220
-        
-        return height
-    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        
+        cell.awakeFromNib()
+        cell.setSelected(true, animated: true)
         // Configure the cell...
         
         let s = subjectList[indexPath.row] as Subject
-       
-        //cell content
-        cell.textLabel?.text = s.subjectName
-        cell.detailTextLabel?.text = s.subjectDesc
+        let sub = self.quizes.list[indexPath.row].subject
+        let desc = self.quizes.list[indexPath.row].quizDescription
+        cell.textLabel?.text = sub
+        cell.detailTextLabel?.text = desc
         cell.imageView?.image = UIImage(named:s.subjectImageName)
+        cell.setSelected(true, animated: true)
         
         //font sizes configurations
         cell.textLabel?.font = UIFont(name: "Arial", size:25)
@@ -81,25 +89,22 @@ class SubjectListTBV: UITableViewController {
         UIGraphicsEndImageContext()
         
         //cell.textLabel.numberOfLines = 0;
- 
+        
         return cell
     }
     
-    @IBAction func settings(_ sender: Any) {
-        let alert = UIAlertController(title: "Settings", message: "Settings go here", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-        
-    }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UserDefaults.standard.set(indexPath.row, forKey: "selectedRow")
-        UserDefaults.standard.set(0, forKey: "queNumber")
-        UserDefaults.standard.set(0, forKey: "rightNumber")
-        //UserDefaults.standard.integer(forKey: "selectedRow") = indexPath.row
-    }
+    
+    
+    
+    
+    
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        UserDefaults.standard.set(indexPath.row, forKey: "selectedRow")
+//        UserDefaults.standard.set(0, forKey: "queNumber")
+//        UserDefaults.standard.set(0, forKey: "rightNumber")
+//        //UserDefaults.standard.integer(forKey: "selectedRow") = indexPath.row
+//    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -144,5 +149,37 @@ class SubjectListTBV: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - Table view data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var height:CGFloat = CGFloat()
+        height = 220
+        
+        return height
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        let destination = segue.destination as! QuestionViewController
+        let cell = sender
+        let seletedRow = tableView.indexPath(for: cell as! UITableViewCell)!.row
+        destination.subject = quizes.list[seletedRow].subject
+        print (seletedRow)
+        print (quizes.list.count)
+    }
 
 }

@@ -13,6 +13,10 @@ class FinishViewController: UIViewController {
     let q = UserDefaults.standard.integer(forKey: "queNumber")
     var Desc = ""
     
+    var corCount : Int = 0
+    var qCount : Int = 0
+    
+    
     @IBOutlet weak var DescText: UILabel!
     @IBOutlet weak var ScoreText: UILabel!
     

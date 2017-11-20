@@ -10,11 +10,6 @@ import UIKit
 
 class QuestionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource{
 
-    var rowNumber = 0
-    var queCounts = 0
-    var selectedAns = 0
-    var rightOrNot = "Wrong"
-    var pickerData: [String] = [String]()
     var q0:[String] = ["1 + 1 = ?", "6 * 7 = ?", "5 ! = ?"]
     var ans0 = [["1", "2", "4", "6"], ["5", "10", "42", "19"], ["120", "110", "200", "100"]]
     var cor0 = [1, 2, 0]
@@ -27,55 +22,45 @@ class QuestionViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     var ans2 = [["Gold", "Iron", "Diamond", "Platinum"],
                 ["Phosphorous", "Bromine", "Chlorine", "Helium"]]
     var cor2 = [2, 1]
+    var subject = ""
+    var rowNumber = 0
+    var queCounts = 0
+    var selectedAns = 0
+    var rightOrNot = "Wrong"
+    var questionS = QuestionS.shared
+    var pickerData: [String] = [String]()
+    var qIndex = 0
+    var curQs : [Question]? = nil
+    var numCrt = 0
     //let ansView : AnsViewController! = nil
-    func setUp() -> Void{
-        let queArray : [[String]] = [q0, q1, q2]
-        let ansArray = [ans0 , ans1, ans2]
-        let corArray = [cor0, cor1, cor2]
-        UserDefaults.standard.set(queArray, forKey: "ques")
-        UserDefaults.standard.set(ansArray, forKey: "ans")
-        UserDefaults.standard.set(corArray, forKey: "cor")
-        //AnsPicker.dataSource = ansArray[rowNumber][0]
-    }
+  
     
     @IBOutlet weak var QLabel: UILabel!
     @IBOutlet weak var AnsPicker: UIPickerView!
     
     @IBAction func SubmitButton(_ sender: AnyObject) {
-        var q = UserDefaults.standard.integer(forKey: "queNumber")
-        let corArray = UserDefaults.standard.array(forKey: "cor") as! [[Int]]
-        var r = UserDefaults.standard.integer(forKey: "rightNumber")
-        if corArray[rowNumber][q] == selectedAns {
-            r += 1
-            rightOrNot = "Correct"
-        }
-        //AnsViewController.set(ques : self.QLabel.text, corAns: pickerData[corArray[rowNumber][q]], result: rightOrNot)
-        UserDefaults.standard.set(r, forKey: "rightNumber")
-        q += 1
-        UserDefaults.standard.set(q, forKey: "queNumber")
+           performSegue(withIdentifier: "ToAnswer", sender: self)
     }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedAns = row
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let q = self.curQs![qIndex]
+        return q.answers[row]
+    }
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 4
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.setUp()
-        rowNumber = UserDefaults.standard.integer(forKey: "selectedRow")
-        let queNumber = UserDefaults.standard.integer(forKey: "queNumber")
-        self.AnsPicker.delegate = self
-        self.AnsPicker.dataSource = self
-        let ques = UserDefaults.standard.array(forKey: "ques")! as! [[String]]
-        self.QLabel.text = ques[rowNumber][queNumber]
-        let answers = UserDefaults.standard.array(forKey: "ans")! as! [[[String]]]
-        pickerData = answers[rowNumber][queNumber]
-        queCounts = ques[rowNumber].count
-    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        // Do any additional setup after loading the view.
+        self.AnsPicker.delegate = self
+        self.AnsPicker.dataSource = self
+        self.curQs = questionS.list[subject]
+        //print ("self.curQs: \(self.curQs)")
+        queCounts = (self.curQs?.count)!
+        let q = self.curQs![qIndex]
+        self.QLabel.text = q.text
+        print ("from QView: \(self.QLabel.text)")
+        // Do any add=itional setup after loading the view.
     }
     
     override func didReceiveMemoryWarning() {
@@ -88,36 +73,19 @@ class QuestionViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return 1
     }
     
-    // The number of rows of data
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-    
-    // The data to return for the row and component (column) that's being passed in
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
-    }
-    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using
-        if segue.identifier == "Segue1"{
-            return
+        if segue.identifier == "ToAnswer"{
+            let destination = segue.destination as! AnswerViewController
+            destination.userAns = self.AnsPicker.selectedRow(inComponent: 0)
+            destination.sub = self.subject
+            destination.corCount = self.numCrt
+            destination.qCount = self.qIndex
+            destination.curQs = self.curQs
         }
-        let destination = segue.destination as! AnswerViewController
-        let q = UserDefaults.standard.integer(forKey: "queNumber")
-        let corArray = UserDefaults.standard.array(forKey: "cor") as! [[Int]]
-        destination.ques = self.QLabel.text
-        destination.corAns = pickerData[corArray[rowNumber][q - 1]]
-        destination.result = rightOrNot
-        var LastQuestion = 0
-        if (queCounts == q ) {
-            LastQuestion = 1
-        }
-        destination.LastQue = LastQuestion
-        // Pass the selected object to the new view controller.
     }
     /*
     // MARK: - Navigation
