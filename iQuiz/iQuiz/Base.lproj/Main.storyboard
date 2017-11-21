@@ -95,7 +95,7 @@
                                 <state key="normal" title="Submit"/>
                                 <connections>
                                     <action selector="SubmitButton:" destination="hkU-pY-Q5C" eventType="touchUpInside" id="m3k-2y-SBK"/>
-                                    <segue destination="U2c-H7-YgV" kind="show" id="9ip-8K-mlg"/>
+                                    <segue destination="U2c-H7-YgV" kind="show" identifier="ToAnswer" id="9ip-8K-mlg"/>
                                 </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cap-Rd-7cj">
@@ -139,7 +139,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="correct answer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f1S-CJ-Zsv">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="correct answer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f1S-CJ-Zsv">
                                 <rect key="frame" x="80" y="169" width="215" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -163,7 +163,7 @@
                                 <state key="normal" title="Next"/>
                                 <connections>
                                     <action selector="NextButton:" destination="U2c-H7-YgV" eventType="touchUpInside" id="uHd-mo-b5I"/>
-                                    <segue destination="hkU-pY-Q5C" kind="show" identifier="Segue1" id="Sp9-c5-hcL"/>
+                                    <segue destination="hkU-pY-Q5C" kind="show" identifier="nextSegue" id="Sp9-c5-hcL"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -190,7 +190,7 @@
                         <outlet property="CorAnsText" destination="f1S-CJ-Zsv" id="es4-MK-wga"/>
                         <outlet property="QuesText" destination="rVC-ld-v7V" id="UiX-JC-Fo1"/>
                         <outlet property="ResultLabel" destination="0kT-5b-abD" id="FMU-Hl-oft"/>
-                        <segue destination="tbw-lf-y5n" kind="show" identifier="Segue2" id="WYM-WC-gMU"/>
+                        <segue destination="tbw-lf-y5n" kind="show" identifier="finish" id="WYM-WC-gMU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bep-IM-sV0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -215,7 +215,7 @@
                                 <rect key="frame" x="20" y="617" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
-                                    <segue destination="C9P-kY-JXl" kind="show" id="ual-6O-5fa"/>
+                                    <segue destination="C9P-kY-JXl" kind="show" identifier="Segue1" id="ual-6O-5fa"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oNy-dt-shB">
@@ -260,7 +260,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="9ip-8K-mlg"/>
         <segue reference="Sp9-c5-hcL"/>
-        <segue reference="ual-6O-5fa"/>
+        <segue reference="j4Z-bY-6VI"/>
     </inferredMetricsTieBreakers>
 </document>

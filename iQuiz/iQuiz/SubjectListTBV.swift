@@ -40,13 +40,13 @@ class SubjectListTBV: UITableViewController {
         super.viewDidLoad()
         GetData.getData("http://tednewardsandbox.site44.com/questions.json")
  
-        let subject1 = Subject(name:"Mathematics", desc:"Do you want to test your mathematic skills?", image:"math.png")
+        let subject1 = Subject(name:"Science", desc:"Do you want to test your science skills?", image:"science.jpeg")
         subjectList += [subject1]
         
         let subject2 = Subject(name:"Marvel Super Heros", desc:"Do you want to do some quizzes?", image:"hero.png")
         subjectList += [subject2]
         
-        let subject3 = Subject(name:"Science", desc:"Do you want to do some science quizzes?", image:"science.jpeg")
+        let subject3 = Subject(name:"Mathematics", desc:"Do you want to do some math quizzes?", image:"math.png")
         subjectList += [subject3]
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

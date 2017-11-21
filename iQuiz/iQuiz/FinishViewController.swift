@@ -25,7 +25,9 @@ class FinishViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        ScoreText.text = "\(r) of \(q) correct"
+        ScoreText.text = "\(corCount) of \(qCount) correct"
+        let r = corCount
+        let q = qCount
         let correctRate = Double(r)/Double(q)
         if (r == q){
             Desc = "Perfect!"
@@ -36,6 +38,7 @@ class FinishViewController: UIViewController {
             Desc = "\(diff) missed!"
         }
         DescText.text = Desc
+        
     }
 
     override func didReceiveMemoryWarning() {

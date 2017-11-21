@@ -15,7 +15,7 @@ public class Question{
     public init(_ t: String, _ aas : [String],_ a: Int) {
         text = t
         answers = aas
-        answer = a
+        answer = a - 1
     }
 }
 
